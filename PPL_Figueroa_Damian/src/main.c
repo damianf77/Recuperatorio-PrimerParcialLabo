@@ -12,7 +12,7 @@ int main(void)
 	setbuf(stdout,NULL);
 
 	eCliente clientList[MAX];
-	sOrders ordersList[MAX2];
+	eOrden ordersList[MAX2];
 
 	eLocalidades localitiesList[MAX];
 	sPlastics plasticsList[MAX2];

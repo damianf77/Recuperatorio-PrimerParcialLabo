@@ -9,11 +9,11 @@
 
 struct
 {
-	char companyName[20];
+	char nombreEmpresa[20];
 	char cuit[14];
-	char adress[20];
-	int localityId;
-	int clientId;
+	char direccion[20];
+	int idLocalidad;
+	int idCliente;
 	int orderStatus;
 	int isEmpty;
 
