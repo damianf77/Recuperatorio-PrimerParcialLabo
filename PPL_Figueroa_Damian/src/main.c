@@ -15,7 +15,7 @@ int main(void)
 	eOrden ordersList[MAX2];
 
 	eLocalidades localitiesList[MAX];
-	sPlastics plasticsList[MAX2];
+	ePlasticos plasticsList[MAX2];
 
 	int uniqueID;
 	int uniqueOrderID;
@@ -41,10 +41,10 @@ int main(void)
 	uniqueLocalityID = 0;
 
 	/// Init Arrays
-	initOrders(ordersList, MAX2);
+	iniciarOrden(ordersList, MAX2);
 	inicializaClientes(clientList, MAX);
 	inicializaLocalidades(localitiesList,MAX);
-	PLA_initArray(plasticsList, MAX2);
+	iniciaArrPlastico(plasticsList, MAX2);
 
 	do
 	{
@@ -69,7 +69,7 @@ int main(void)
 								nuevoCliente(clientList, localitiesList, MAX, &uniqueID, &uniqueLocalityID);
 								printf("\n\n\t\t\t\t\t\t\t\t\tMostrando nuevo cliente");
 
-								CLI_printClientsListWithLocalities(clientList, localitiesList, MAX, MAX);
+								imprimirListaClientesLocalidades(clientList, localitiesList, MAX, MAX);
 								clientsCounter++;
 							}
 							else
@@ -107,7 +107,7 @@ int main(void)
 								harcodeaLocalidades(localitiesList,MAX,&uniqueLocalityID);
 								crearClientesRandom(clientList, MAX, &uniqueID);
 								arrayChargeOrders(ordersList,clientList,MAX,&uniqueOrderID); /// Ordenes
-								CLI_printClientsListWithLocalities(clientList, localitiesList, MAX, MAX);
+								imprimirListaClientesLocalidades(clientList, localitiesList, MAX, MAX);
 
 								maxHardcodeLocalitiesFlag = 1;
 								clientsCounter+=clientsCounter+12;
@@ -148,7 +148,7 @@ int main(void)
 			case 4:
 				if(clientsCounter > 0)
 				{
-					newOrder(clientList, ordersList, localitiesList, MAX, &uniqueOrderID);
+					nuevaOrden(clientList, ordersList, localitiesList, MAX, &uniqueOrderID);
 					ordersCounter++;
 				}
 				else
@@ -159,7 +159,7 @@ int main(void)
 			case 5:
 				if(ordersCounter > 0)
 				{
-					processingOrder(clientList, ordersList, plasticsList, MAX, MAX2);
+					procesaOrden(clientList, ordersList, plasticsList, MAX, MAX2);
 				}
 				else
 				{
@@ -178,7 +178,7 @@ int main(void)
 						case 1:
 							if(clientsCounter > 0 && ordersCounter > 0)
 							{
-								showClientsWithPendingOrders(clientList, ordersList, localitiesList, MAX, MAX2, MAX);
+								mostrarClientesOrdenesPendientes(clientList, ordersList, localitiesList, MAX, MAX2, MAX);
 							}
 							else
 							{
@@ -188,7 +188,7 @@ int main(void)
 						case 2:
 							if(clientsCounter > 0 && ordersCounter > 0)
 							{
-								showPedingOrdersWithClientsInfo(clientList, ordersList, MAX, MAX2);
+								ordenPendienteClienteInfo(clientList, ordersList, MAX, MAX2);
 							}
 							else
 							{
@@ -198,7 +198,7 @@ int main(void)
 						case 3:
 							if(clientsCounter > 0 && ordersCounter > 0)
 							{
-								showCompleteOrdersWithWeight(clientList, ordersList, plasticsList, MAX, MAX2);
+								mostrarOrdenCompletaPeso(clientList, ordersList, plasticsList, MAX, MAX2);
 							}
 							else
 							{
@@ -208,7 +208,7 @@ int main(void)
 						case 4:
 							if(clientsCounter > 0 && ordersCounter > 0)
 							{
-								showPendingOrdersByLocality(localitiesList,clientList, ordersList,MAX,MAX2,&uniqueLocalityID);
+								ordenPendienteLocalidad(localitiesList,clientList, ordersList,MAX,MAX2,&uniqueLocalityID);
 							}
 							else
 							{
@@ -218,7 +218,7 @@ int main(void)
 						case 5:
 							if(clientsCounter > 0 && ordersCounter > 0)
 							{
-								averagePPRecicledByClient(clientList, ordersList, plasticsList, MAX, MAX2);
+								promedioPPporCliente(clientList, ordersList, plasticsList, MAX, MAX2);
 							}
 							else
 							{
@@ -228,7 +228,7 @@ int main(void)
 						case 6:
 							if(clientsCounter > 0 && ordersCounter > 0)
 							{
-								clientWithMostOrders(clientList, localitiesList,ordersList, MAX, MAX2, PENDING);
+								clienteMasOrdenes(clientList, localitiesList,ordersList, MAX, MAX2, PENDING);
 							}
 							else
 							{
@@ -238,7 +238,7 @@ int main(void)
 						case 7:
 							if(clientsCounter > 0 && ordersCounter > 0)
 							{
-								clientWithMostOrders(clientList, localitiesList,ordersList, MAX, MAX2, COMPLETED);
+								clienteMasOrdenes(clientList, localitiesList,ordersList, MAX, MAX2, COMPLETED);
 							}
 							else
 							{
@@ -248,7 +248,7 @@ int main(void)
 						case 8:
 							if(clientsCounter > 0 && ordersCounter > 0)
 							{
-								clientWithMostOrders(clientList, localitiesList,ordersList, MAX, MAX2, ALL);
+								clienteMasOrdenes(clientList, localitiesList,ordersList, MAX, MAX2, ALL);
 							}
 							else
 							{
@@ -258,7 +258,7 @@ int main(void)
 						case 9:
 							if(clientsCounter > 0 && ordersCounter > 0)
 							{
-								plasticRecicledByLocality(clientList, localitiesList, ordersList, plasticsList, MAX, MAX2, &uniqueLocalityID);
+								plasticoRecicladoLocalidad(clientList, localitiesList, ordersList, plasticsList, MAX, MAX2, &uniqueLocalityID);
 							}
 							else
 							{
@@ -269,7 +269,7 @@ int main(void)
 						case 10:
 							if(clientsCounter > 0)
 							{
-								CLI_printClientsListWithLocalities(clientList, localitiesList, MAX, MAX);
+								imprimirListaClientesLocalidades(clientList, localitiesList, MAX, MAX);
 							}
 							else
 							{

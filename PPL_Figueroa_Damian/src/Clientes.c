@@ -10,15 +10,15 @@
 
 // brief: Inicia el array de clientes
 
-int inicializaClientes (eCliente* clientList, int len)
+int inicializaClientes (eCliente* listaCliente, int len)
 {
 	int state = -1;
 
-	if(clientList != NULL && len > 0)
+	if(listaCliente != NULL && len > 0)
 	{
 		for(int i = 0; i < len; i++)
 		{
-			clientList[i].isEmpty = EMPTY;
+			listaCliente[i].isEmpty = EMPTY;
 		}
 	}
 	return state;
@@ -28,17 +28,17 @@ int inicializaClientes (eCliente* clientList, int len)
 /// @brief Busca espacio libre para un nuevo cliente.
 /// @return devuelve -1 si encontro, o posicion libre.
 
-int espacioNuevoCliente (eCliente* clientList, int len)
+int espacioNuevoCliente (eCliente* listaClientes, int len)
 {
 	int position;
 
 	position = -1;
 
-	if(clientList != NULL && len > 0)
+	if(listaClientes != NULL && len > 0)
 	{
 		for(int i = 0; i < len; i++)
 		{
-			if(clientList[i].isEmpty == EMPTY)
+			if(listaClientes[i].isEmpty == EMPTY)
 			{
 				position = i;
 				break;
@@ -52,35 +52,35 @@ int espacioNuevoCliente (eCliente* clientList, int len)
 
 // @brief Pide y valida los datos para la creación de un nuevo cliente.
 // @return -1 si falla, 0 si termina bien.
-int nuevoCliente (eCliente* clientList, eLocalidades* localitiesList, int len, int* uniqueID, int* uniqueLocalityID)
+int nuevoCliente (eCliente* listaClientes, eLocalidades* listaLocalidades, int len, int* uniqueID, int* idLocalidad)
 {
-	int state;
-	eCliente newClient;
-	char auxLocality[MAX];
-	int auxIdlocality;
+	int estado;
+	eCliente nuevoCliente;
+	char localidadAux[MAX];
+	int idLocalidadAux;
 
-	state = -1;
+	estado = -1;
 	*uniqueID = *uniqueID+1;
 
-	if(clientList != NULL && localitiesList != NULL && len > 0)
+	if(listaClientes != NULL && listaLocalidades != NULL && len > 0)
 	{
 		validaString("\n\t\t\t\t\t\t\tIngrese el nombre de su compañia :) : ",
-		"\t\t\t\t\t\tERROR - (RE-Ingrese el nombre de su compañia) - ERROR : \n", newClient.nombreEmpresa);
+		"\t\t\t\t\t\tERROR - (RE-Ingrese el nombre de su compañia) - ERROR : \n", nuevoCliente.nombreEmpresa);
 		validaString("\n\t\t\t\t\t\t       Ingrese el cuit de su compañia :) : ",
-		"\t\t\t\t\t\tERROR - (RE-Ingrese el cuit de su compañia) - ERROR : \n", newClient.cuit);
-		pideDireccion("\n\t\t\t\t\t\t    Ingrese la direccion de su compañia :) : ", newClient.direccion);
-		locImprimeLista(localitiesList, MAX);
-		getValidLocality("\n\t\t\t\t\t\t\tIngrese la localidad de su compañia :) : ",
+		"\t\t\t\t\t\tERROR - (RE-Ingrese el cuit de su compañia) - ERROR : \n", nuevoCliente.cuit);
+		pideDireccion("\n\t\t\t\t\t\t    Ingrese la direccion de su compañia :) : ", nuevoCliente.direccion);
+		locImprimeLista(listaLocalidades, MAX);
+		obtenerLocalidadValida("\n\t\t\t\t\t\t\tIngrese la localidad de su compañia :) : ",
 		"\t\t\t\t\t\tERROR - (RE-Ingrese la localidad de su compañia) - ERROR : \n",
-		auxLocality);
+		localidadAux);
 
-		formatearChar(auxLocality);
+		formatearChar(localidadAux);
 
-		auxIdlocality = locBuscar(localitiesList, MAX, auxLocality, uniqueLocalityID);
+		idLocalidadAux = locBuscar(listaLocalidades, MAX, localidadAux, idLocalidad);
 
-		if(auxIdlocality != 0)
+		if(idLocalidadAux != 0)
 		{
-			newClient.idLocalidad = auxIdlocality;
+			nuevoCliente.idLocalidad = idLocalidadAux;
 			printf("\n\n\t\t\t\t\t\t Localidad asignada correctamente");
 		}
 		else
@@ -89,13 +89,13 @@ int nuevoCliente (eCliente* clientList, eLocalidades* localitiesList, int len, i
 			return EXIT_SUCCESS;
 		}
 
-		newClient.idCliente = *uniqueID;
-		state = 0;
+		nuevoCliente.idCliente = *uniqueID;
+		estado = 0;
 
-		agregarCliente(clientList, len, newClient.nombreEmpresa, newClient.cuit, newClient.direccion, newClient.idLocalidad, newClient.idCliente);
+		agregarCliente(listaClientes, len, nuevoCliente.nombreEmpresa, nuevoCliente.cuit, nuevoCliente.direccion, nuevoCliente.idLocalidad, nuevoCliente.idCliente);
 	}
 
-	return state;
+	return estado;
 }
 
 // @brief Obtiene una posision libre y carga todos los datos en esa posicion.
@@ -128,7 +128,7 @@ int pedirID(eCliente* clientList, eLocalidades* localitiesList, int len)
 
 	if(clientList != NULL && len > 0)
 	{
-		CLI_printClientsListWithLocalities(clientList, localitiesList, 100, 100);
+		imprimirListaClientesLocalidades(clientList, localitiesList, 100, 100);
 
 		enteredIdToRemove = obtieneEnteroValido("\n\n\t\t\t\t\t\t\tDespues de haber visto la lista de los Id's disponibles, cual desea elegir?",
 				"\n\n\t\t\t\t\tERROR - (El id ingresado no existe  intentelo nuevamente) - ERROR", 1, 100);
@@ -188,7 +188,7 @@ int modificaCliente (eCliente* clientList, eLocalidades* localitiesList, int len
 			break;
 			case 2:
 				locImprimeLista(localitiesList, MAX);
-				getValidLocality("\n\t\t\t\t\t\t\t\tIngrese la localidad de su compañia :) : ",
+				obtenerLocalidadValida("\n\t\t\t\t\t\t\t\tIngrese la localidad de su compañia :) : ",
 						"\t\t\t\t\t\tERROR - (RE-Ingrese la localidad de su compañia) - ERROR : \n",
 						auxLocality);
 

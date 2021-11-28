@@ -9,40 +9,25 @@
 
 struct
 {
-	int orderId;
+	int idOrden;
 	int HDPE;
 	int LDPE;
 	int PP;
-	int desechableThrash;
+	int basuraDesechable;
 	int isEmpty;
 
-}typedef sPlastics;
+}typedef ePlasticos;
 
-/// @fn int PLA_initArray(sPlastics*, int)
-/// @brief Inicia el Array de ordenes en vacio.
-///
-/// @param plasticsList
-/// @param plasticsLen
-/// @return devuelve -1 si no se pudo realizar y 0 si se pudo.
-int PLA_initArray (sPlastics* plasticsList, int plasticsLen);
+//brief Inicia el Array de ordenes en vacio.
+//return devuelve -1 si no se pudo realizar y 0 si se pudo.
+int iniciaArrPlastico(ePlasticos *listaPlasticos, int lenPlasticos);
+//brief busca una posicion disponible para guardar el pedido procesado junto con todos sus plasticos.
+//return devuelve -1 si no se pudo realizar y 0 si se pudo.
+int PLA_freeArraySpot (ePlasticos* plasticsList, int plasticsLen);
 
-/// @fn int PLA_freeArraySpot(sPlastics*, int)
-/// @brief busca una posicion disponible para guardar el pedido procesado junto con todos sus plasticos.
-///
-/// @param plasticsList
-/// @param plasticsLen
-/// @return devuelve -1 si no se pudo realizar y 0 si se pudo.
-int PLA_freeArraySpot (sPlastics* plasticsList, int plasticsLen);
-
-/// @fn int PLA_processPlastics(sPlastics*, int, int, int)
-/// @brief Procesa el pedido completo que le llega por parametros desde la funcion de procesar de ordenes.
-///
-/// @param plasticsList
-/// @param plasticsLen
-/// @param id
-/// @param weightOrder
-/// @return devuelve -1 si no se pudo realizar y 0 si se pudo.
-int PLA_processPlastics (sPlastics* plasticsList, int plasticsLen, int id, int weightOrder);
+//brief Procesa el pedido completo que le llega por parametros desde la funcion de procesar de ordenes.
+//return devuelve -1 si no se pudo realizar y 0 si se pudo.
+int PLA_processPlastics (ePlasticos* plasticsList, int plasticsLen, int id, int weightOrder);
 
 
 

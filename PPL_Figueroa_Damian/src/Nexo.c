@@ -2,87 +2,87 @@
 
 #include "Nexo.h"
 
-eCliente bringClients(eCliente* clientList, int clientsLen, int id)
+eCliente obtenerClientes(eCliente* listaClientes, int lenClientes, int id)
 {
-	eCliente oneClient;
+	eCliente unCliente;
 
-	if(clientList != NULL && clientsLen > 0)
+	if(listaClientes != NULL && lenClientes > 0)
 	{
-		for(int i = 0; i < clientsLen; i++)
+		for(int i = 0; i < lenClientes; i++)
 		{
-			if(clientList[i].idCliente == id && clientList[i].isEmpty == FULL)
+			if(listaClientes[i].idCliente == id && listaClientes[i].isEmpty == FULL)
 			{
-				oneClient = clientList[i];
+				unCliente = listaClientes[i];
 				break;
 			}
 		}
 	}
 
-	return oneClient;
+	return unCliente;
 }
 
-eOrden bringOrders(eOrden* ordersList, int ordersLen, int id)
+eOrden traerOrdenes(eOrden* listaOrdenes, int lenOrden, int id)
 {
-	eOrden oneOrder;
+	eOrden unaOrden;
 
-	oneOrder.isEmpty = EMPTY;
+	unaOrden.isEmpty = EMPTY;
 
-	if(ordersList != NULL && ordersLen > 0)
+	if(listaOrdenes != NULL && lenOrden > 0)
 	{
-		for(int i = 0; i < ordersLen; i++)
+		for(int i = 0; i < lenOrden; i++)
 		{
-			if(ordersList[i].estado == COMPLETED
-			&& ordersList[i].idCliente == id)
+			if(listaOrdenes[i].estado == COMPLETED
+			&& listaOrdenes[i].idCliente == id)
 			{
-				oneOrder = ordersList[i];
+				unaOrden = listaOrdenes[i];
 				break;
 			}
 		}
 	}
 
-	return oneOrder;
+	return unaOrden;
 }
 
-sPlastics bringPlasticTypes (sPlastics* plasticList, int plasticLen, int id)
+ePlasticos traerPlasticos (ePlasticos* listaPlasticos, int lenPlasticos, int id)
 {
-	sPlastics oneProcessedOrder;
+	ePlasticos ordenProcesada;
 
-	if(plasticList != NULL && plasticLen > 0)
+	if(listaPlasticos != NULL && lenPlasticos > 0)
 	{
-		for(int i = 0; i < plasticLen; i++)
+		for(int i = 0; i < lenPlasticos; i++)
 		{
-			if(plasticList[i].isEmpty == FULL && plasticList[i].orderId == id)
+			if(listaPlasticos[i].isEmpty == FULL && listaPlasticos[i].idOrden == id)
 			{
-				oneProcessedOrder = plasticList[i];
+				ordenProcesada = listaPlasticos[i];
 				break;
 			}
 		}
 	}
 
-	return oneProcessedOrder;
+	return ordenProcesada;
 }
 
-int deliverOrders (eOrden* ordersList, int ordersLen, int id)
+int deliverOrders (eOrden* listaOrdenes, int lenOrden, int id)
 {
-	int contadorPendingOrders;
+	int contadorPendientes;
 
-	contadorPendingOrders = 0;
+	contadorPendientes = 0;
 
-	if(ordersList != NULL && ordersLen > 0)
+	if(listaOrdenes != NULL && lenOrden > 0)
 	{
-		for(int i = 0; i < ordersLen; i++)
+		for(int i = 0; i < lenOrden; i++)
 		{
-			if(ordersList[i].isEmpty == FULL && ordersList[i].idCliente == id && ordersList[i].estado == PENDING)
+			if(listaOrdenes[i].isEmpty == FULL && listaOrdenes[i].idCliente == id && listaOrdenes[i].estado == PENDING)
 			{
-				contadorPendingOrders++;
+				contadorPendientes++;
 			}
 		}
 	}
 
-	return contadorPendingOrders;
+	return contadorPendientes;
 }
 
-int showClientsWithPendingOrders (eCliente* clientList, eOrden* ordersList ,eLocalidades* localitiesList, int clientsLen, int lenOrders, int localitiesLen) // 6
+int mostrarClientesOrdenesPendientes (eCliente* clientList, eOrden* ordersList ,eLocalidades* localitiesList, int clientsLen, int lenOrders, int localitiesLen) // 6
 {
 	int contadorPedidospPendientes;
 	int state;
@@ -118,7 +118,7 @@ int showClientsWithPendingOrders (eCliente* clientList, eOrden* ordersList ,eLoc
 	return state;
 }
 
-int showPedingOrdersWithClientsInfo (eCliente* clientList, eOrden* ordersList, int clientsLen, int lenOrders) // 7
+int ordenPendienteClienteInfo (eCliente* clientList, eOrden* ordersList, int clientsLen, int lenOrders) // 7
 {
 	int state;
 	eCliente auxClient;
@@ -134,7 +134,7 @@ int showPedingOrdersWithClientsInfo (eCliente* clientList, eOrden* ordersList, i
 		{
 			if(ordersList[i].estado == PENDING && ordersList[i].isEmpty == FULL)
 			{
-				auxClient = bringClients(clientList, MAX, ordersList[i].idCliente);
+				auxClient = obtenerClientes(clientList, MAX, ordersList[i].idCliente);
 
 				printf("\t\t\t\t\t\t\t| %10s |%24s    |     %5d    |\n",
 				auxClient.cuit,
@@ -148,10 +148,10 @@ int showPedingOrdersWithClientsInfo (eCliente* clientList, eOrden* ordersList, i
 	return state;
 }
 
-int showCompleteOrdersWithWeight (eCliente* clientList, eOrden* ordersList, sPlastics* plasticsList, int clientsLen, int ordersLen) // 8
+int mostrarOrdenCompletaPeso (eCliente* clientList, eOrden* ordersList, ePlasticos* plasticsList, int clientsLen, int ordersLen) // 8
 {
 	int state;
-	sPlastics auxPlastic;
+	ePlasticos auxPlastic;
 	eCliente oneClient;
 
 	state = -1;
@@ -165,8 +165,8 @@ int showCompleteOrdersWithWeight (eCliente* clientList, eOrden* ordersList, sPla
 		{
 			if(ordersList[i].isEmpty == FULL)
 			{
-				oneClient = bringClients(clientList, clientsLen, ordersList[i].idCliente);
-				auxPlastic = bringPlasticTypes(plasticsList, ordersLen, ordersList[i].idOrden);
+				oneClient = obtenerClientes(clientList, clientsLen, ordersList[i].idCliente);
+				auxPlastic = traerPlasticos(plasticsList, ordersLen, ordersList[i].idOrden);
 
 				if(oneClient.isEmpty == FULL && ordersList[i].estado == COMPLETED)
 				{
@@ -177,7 +177,7 @@ int showCompleteOrdersWithWeight (eCliente* clientList, eOrden* ordersList, sPla
 					auxPlastic.HDPE,
 					auxPlastic.LDPE,
 					auxPlastic.PP,
-					auxPlastic.desechableThrash);
+					auxPlastic.basuraDesechable);
 					state = 0;
 				}
 			}
@@ -187,7 +187,7 @@ int showCompleteOrdersWithWeight (eCliente* clientList, eOrden* ordersList, sPla
 	return state;
 }
 
-int showPendingOrdersByLocality (eLocalidades* localitiesList, eCliente* clientList, eOrden* ordersList, int clientsLen, int lenOrders, int* uniqueLocalityID) // 9
+int ordenPendienteLocalidad (eLocalidades* localitiesList, eCliente* clientList, eOrden* ordersList, int clientsLen, int lenOrders, int* uniqueLocalityID) // 9
 {
 	int state;
 	char locality[MAX];
@@ -200,7 +200,7 @@ int showPendingOrdersByLocality (eLocalidades* localitiesList, eCliente* clientL
 
 	if(clientList != NULL && ordersList != NULL && localitiesList != NULL && clientsLen > 0 && lenOrders > 0)
 	{
-		getValidLocality("\n\t\t\t\t\t\tIngrese la localidad de donde quiere filtrar sus pedidos: ",
+		obtenerLocalidadValida("\n\t\t\t\t\t\tIngrese la localidad de donde quiere filtrar sus pedidos: ",
 		"\t\t\t\t\t\tERROR - (RE-Ingrese la localidad de donde quiere filtrar sus pedidos) - ERROR : \n",
 		locality);
 
@@ -239,7 +239,7 @@ int showPendingOrdersByLocality (eLocalidades* localitiesList, eCliente* clientL
 	return state;
 }
 
-int averagePPRecicledByClient (eCliente* clientList, eOrden* ordersList,sPlastics* plasticsList, int clientsLen, int ordersLen) // 10
+int promedioPPporCliente (eCliente* clientList, eOrden* ordersList,ePlasticos* plasticsList, int clientsLen, int ordersLen) // 10
 {
 	int state;
 	int ppAverageResults;
@@ -257,7 +257,7 @@ int averagePPRecicledByClient (eCliente* clientList, eOrden* ordersList,sPlastic
 		{
 			if(clientList[i].isEmpty == FULL)
 			{
-				ppAverageResults = countClientsByOrder(ordersList, plasticsList, ordersLen,clientList[i].idCliente);
+				ppAverageResults = cuentaClientesPorOrden(ordersList, plasticsList, ordersLen,clientList[i].idCliente);
 				if(ppAverageResults > 0)
 				{
 					printf("\t\t\t\t\t\t\t\t|     %10s    |   %10d             |\n",
@@ -274,7 +274,7 @@ int averagePPRecicledByClient (eCliente* clientList, eOrden* ordersList,sPlastic
 	return state;
 }
 
-int clientWithMostOrders (eCliente* clientList, eLocalidades* localitiesList,eOrden* ordersList, int clientsLen, int ordersLen, int status) // 11 12 13
+int clienteMasOrdenes (eCliente* clientList, eLocalidades* localitiesList,eOrden* ordersList, int clientsLen, int ordersLen, int status) // 11 12 13
 {
 	int state;
 	int posOfMostClient;
@@ -287,7 +287,7 @@ int clientWithMostOrders (eCliente* clientList, eLocalidades* localitiesList,eOr
 	{
 		for(int i = 0; i < clientsLen; i++)
 		{
-			state = mostOrdersFinder(ordersList, ordersLen, clientList[i].idCliente, status);
+			state = buscaMayoriaOrdenes(ordersList, ordersLen, clientList[i].idCliente, status);
 
 			if(i == 0 || maxMostOrders < state)
 			{
@@ -311,7 +311,7 @@ int clientWithMostOrders (eCliente* clientList, eLocalidades* localitiesList,eOr
 	return state;
 }
 
-int plasticRecicledByLocality(eCliente* clientList, eLocalidades* localitiesList,eOrden* ordersList, sPlastics* plasticList, int clientsLen, int ordersLen, int* uniqueLocalityID)
+int plasticoRecicladoLocalidad(eCliente* clientList, eLocalidades* localitiesList,eOrden* ordersList, ePlasticos* plasticList, int clientsLen, int ordersLen, int* uniqueLocalityID)
 {
 	int state;
 	char locality[MAX];
@@ -323,7 +323,7 @@ int plasticRecicledByLocality(eCliente* clientList, eLocalidades* localitiesList
 	&& ordersList != NULL && plasticList != NULL
 	&& clientsLen > 0 && ordersLen > 0)
 	{
-		getValidLocality("\n\t\t\t\t\t\tIngrese la localidad de donde quiere filtrar sus pedidos: ",
+		obtenerLocalidadValida("\n\t\t\t\t\t\tIngrese la localidad de donde quiere filtrar sus pedidos: ",
 		"\t\t\t\t\t\tERROR - (RE-Ingrese la localidad de donde quiere filtrar sus pedidos) - ERROR : \n",
 		locality);
 
@@ -342,7 +342,7 @@ int plasticRecicledByLocality(eCliente* clientList, eLocalidades* localitiesList
 			{
 				if(clientList[i].isEmpty == FULL && clientList[i].idLocalidad == localityFoundId)
 				{
-					printplasticRecicledByLocality(clientList, localitiesList, ordersList, plasticList, clientsLen, ordersLen, locality, clientList[i].idCliente);
+					imprimirPlasticoRecicladoLocalidad(clientList, localitiesList, ordersList, plasticList, clientsLen, ordersLen, locality, clientList[i].idCliente);
 					state = 0;
 				}
 			}
@@ -351,10 +351,10 @@ int plasticRecicledByLocality(eCliente* clientList, eLocalidades* localitiesList
 	return state;
 }
 
-int printplasticRecicledByLocality(eCliente* clientList, eLocalidades* localitiesList,eOrden* ordersList, sPlastics* plasticList, int clientsLen, int ordersLen, char locality[], int id)
+int imprimirPlasticoRecicladoLocalidad(eCliente* clientList, eLocalidades* localitiesList,eOrden* ordersList, ePlasticos* plasticList, int clientsLen, int ordersLen, char locality[], int id)
 {
 	int state;
-	sPlastics auxPlastic;
+	ePlasticos auxPlastic;
 	int ppAcumulator;
 	int LDPEAcumulator;
 	int HDPEAcumulator;
@@ -371,14 +371,14 @@ int printplasticRecicledByLocality(eCliente* clientList, eLocalidades* localitie
 	{
 		if(ordersList[i].idCliente == id && ordersList[i].estado == COMPLETED)
 		{
-			auxPlastic = bringPlasticTypes(plasticList, ordersLen, ordersList[i].idOrden); /// PK
+			auxPlastic = traerPlasticos(plasticList, ordersLen, ordersList[i].idOrden); /// PK
 
 			if(auxPlastic.isEmpty == FULL)
 			{
 				ppAcumulator += auxPlastic.PP;
 				LDPEAcumulator +=auxPlastic.LDPE;
 				HDPEAcumulator += auxPlastic.HDPE;
-				thrashAcumulator += auxPlastic.desechableThrash;
+				thrashAcumulator += auxPlastic.basuraDesechable;
 				state = 0;
 			}
 		}
@@ -396,7 +396,7 @@ int printplasticRecicledByLocality(eCliente* clientList, eLocalidades* localitie
 
 
 
-int CLI_printOneClientWithLocality(eCliente clientList, eLocalidades* localitiesList, int clientsLen, int localitiesLen)
+int imprimeClientePorLocalidad(eCliente clientList, eLocalidades* localitiesList, int clientsLen, int localitiesLen)
 {
 	int state;
 	eLocalidades auxFoundLocalityId;
@@ -418,7 +418,7 @@ int CLI_printOneClientWithLocality(eCliente clientList, eLocalidades* localities
 	return state;
 }
 
-int CLI_printClientsListWithLocalities(eCliente* clientList, eLocalidades* localitiesList, int clientsLen, int localitiesLen)
+int imprimirListaClientesLocalidades(eCliente* clientList, eLocalidades* localitiesList, int clientsLen, int localitiesLen)
 {
 	int state;
 
@@ -432,7 +432,7 @@ int CLI_printClientsListWithLocalities(eCliente* clientList, eLocalidades* local
 		{
 			if(clientList[i].isEmpty == FULL)
 			{
-				CLI_printOneClientWithLocality(clientList[i], localitiesList, clientsLen, localitiesLen);
+				imprimeClientePorLocalidad(clientList[i], localitiesList, clientsLen, localitiesLen);
 			}
 		}
 
@@ -442,7 +442,7 @@ int CLI_printClientsListWithLocalities(eCliente* clientList, eLocalidades* local
 	return state;
 }
 
-int ppAcumulator (sPlastics* plasticList,int lenPlastic, int id)
+int ppAcumulador (ePlasticos* plasticList,int lenPlastic, int id)
 {
 	int ppAcumulator;
 
@@ -452,7 +452,7 @@ int ppAcumulator (sPlastics* plasticList,int lenPlastic, int id)
 	{
 		for(int i = 0; i < lenPlastic; i++)
 		{
-			if(plasticList[i].isEmpty == FULL && plasticList[i].orderId == id)
+			if(plasticList[i].isEmpty == FULL && plasticList[i].idOrden == id)
 			{
 				ppAcumulator = ppAcumulator + plasticList[i].PP;
 			}
@@ -462,7 +462,7 @@ int ppAcumulator (sPlastics* plasticList,int lenPlastic, int id)
 	return ppAcumulator;
 }
 
-int countClientsByOrder (eOrden* ordersList, sPlastics* plasticsList,int ordersLen, int id)
+int cuentaClientesPorOrden (eOrden* ordersList, ePlasticos* plasticsList,int ordersLen, int id)
 {
 	int clientsCounter;
 	int ppAverageResults;
@@ -479,7 +479,7 @@ int countClientsByOrder (eOrden* ordersList, sPlastics* plasticsList,int ordersL
 			if(ordersList[i].isEmpty == FULL && ordersList[i].estado == COMPLETED
 			&& ordersList[i].idCliente == id)
 			{
-				acumulatorReturn += ppAcumulator(plasticsList, ordersLen, ordersList[i].idOrden);
+				acumulatorReturn += ppAcumulador(plasticsList, ordersLen, ordersList[i].idOrden);
 				clientsCounter++;
 
 			}
@@ -493,7 +493,7 @@ int countClientsByOrder (eOrden* ordersList, sPlastics* plasticsList,int ordersL
 	return ppAverageResults;
 }
 
-int mostOrdersFinder (eOrden* ordersList, int ordersLen, int id, int status)
+int buscaMayoriaOrdenes (eOrden* ordersList, int ordersLen, int id, int status)
 {
 	int contadorPendingOrders;
 

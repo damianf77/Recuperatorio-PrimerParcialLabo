@@ -20,7 +20,7 @@ int validaChar(char str[]);
 int pideDireccion (char message [], char str[]);
 int validaString(char mensaje[], char mensajeError[], char *input);
 int argentinianCuitValidation (char mensaje[], char mensajeError[], char *input);
-int getValidLocality(char mensaje[], char mensajeError[], char *input);
+int obtenerLocalidadValida(char mensaje[], char mensajeError[], char *input);
 int validaChar(char str[]);
 void formatearChar(char str[]);
 

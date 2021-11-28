@@ -8,8 +8,8 @@
 
 int harcodeaLocalidades (eLocalidades* listaDeLocalidades, int len, int* idLocalidades)
 {
-	int state;
-	state = -1;
+	int estado;
+	estado = -1;
 
 	if(listaDeLocalidades != NULL && len > 0)
 	{
@@ -29,12 +29,12 @@ int harcodeaLocalidades (eLocalidades* listaDeLocalidades, int len, int* idLocal
 		}
 	}
 
-	return state;
+	return estado;
 }
 
 int inicializaLocalidades (eLocalidades* listaLocalidades, int lenLocalidades) ///
 {
-	int state = -1;
+	int estado = -1;
 
 	if(listaLocalidades != NULL && lenLocalidades > 0)
 	{
@@ -44,20 +44,20 @@ int inicializaLocalidades (eLocalidades* listaLocalidades, int lenLocalidades) /
 		}
 	}
 
-	return state;
+	return estado;
 }
 
 int nuevaLocalidad(eLocalidades* listaLocalidades, int lenLocalidades, int* idLocalidades) //
 {
 	eLocalidades nuevaLocalidad;
-	int state;
+	int estado;
 	int aux;
 
-	state = -1;
+	estado = -1;
 
 	if(listaLocalidades != NULL && lenLocalidades > 0)
 	{
-		getValidLocality("\n\t\t\t\t\t\t\tIngrese la localidad de su compañia :) : ",
+		obtenerLocalidadValida("\n\t\t\t\t\t\t\tIngrese la localidad de su compañia :) : ",
 		"\t\t\t\t\t\tERROR - (RE-Ingrese la localidad de su compañia) - ERROR : \n",
 		nuevaLocalidad.localidad);
 
@@ -79,10 +79,10 @@ int nuevaLocalidad(eLocalidades* listaLocalidades, int lenLocalidades, int* idLo
 			printf("\n\t\t\t\t\t\t\t Esa localidad ya existe, intente creando una nueva!");
 		}
 
-		state = 0;
+		estado = 0;
 	}
 
-	return state;
+	return estado;
 }
 
 int cargaListaLocalidades(eLocalidades* localitiesList, int* uniqueLocalityID, int localitiesLen, char auxLocality []) //

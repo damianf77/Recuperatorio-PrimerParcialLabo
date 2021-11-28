@@ -12,23 +12,23 @@
 
 #endif /* NEXUS_H_ */
 
-int showClientsWithPendingOrders (eCliente* clientList, eOrden* ordersList,eLocalidades* localitiesList, int clientsLen, int lenOrders, int localitiesLen); // 6
-int showPedingOrdersWithClientsInfo (eCliente* clientList, eOrden* ordersList, int lenClients, int lenOrders); // 7
-int showCompleteOrdersWithWeight (eCliente* clientList, eOrden* ordersList, sPlastics* plasticList, int clientsLen, int ordersLen); // 8
-int showPendingOrdersByLocality (eLocalidades* localitiesList, eCliente* clientList, eOrden* ordersList, int lenClients, int lenOrders, int* uniqueLocalityID); // 9
-int averagePPRecicledByClient (eCliente* clientList, eOrden* ordersList,sPlastics* plasticList, int clientsLen, int ordersLen); // 10
-int clientWithMostOrders (eCliente* clientList, eLocalidades* localitiesList,eOrden* ordersList, int clientsLen, int ordersLen, int status); // 11 12 13
-int printplasticRecicledByLocality(eCliente* clientList, eLocalidades* localitiesList,eOrden* ordersList, sPlastics* plasticList, int clientsLen, int ordersLen, char locality[], int id);
-int plasticRecicledByLocality(eCliente* clientList, eLocalidades* localitiesList,eOrden* ordersList, sPlastics* plasticList, int clientsLen, int ordersLen, int* uniqueLocalityID);
-int CLI_printOneClientWithLocality(eCliente clientList, eLocalidades* localitiesList, int clientsLen, int localitiesLen);
-int CLI_printClientsListWithLocalities(eCliente* clientList, eLocalidades* localitiesList, int clientsLen, int localitiesLen);
+int mostrarClientesOrdenesPendientes (eCliente* clientList, eOrden* ordersList,eLocalidades* localitiesList, int clientsLen, int lenOrders, int localitiesLen); // 6
+int ordenPendienteClienteInfo (eCliente* clientList, eOrden* ordersList, int lenClients, int lenOrders); // 7
+int mostrarOrdenCompletaPeso (eCliente* clientList, eOrden* ordersList, ePlasticos* plasticList, int clientsLen, int ordersLen); // 8
+int ordenPendienteLocalidad (eLocalidades* localitiesList, eCliente* clientList, eOrden* ordersList, int lenClients, int lenOrders, int* uniqueLocalityID); // 9
+int promedioPPporCliente (eCliente* clientList, eOrden* ordersList,ePlasticos* plasticList, int clientsLen, int ordersLen); // 10
+int clienteMasOrdenes (eCliente* clientList, eLocalidades* localitiesList,eOrden* ordersList, int clientsLen, int ordersLen, int status); // 11 12 13
+int imprimirPlasticoRecicladoLocalidad(eCliente* clientList, eLocalidades* localitiesList,eOrden* ordersList, ePlasticos* plasticList, int clientsLen, int ordersLen, char locality[], int id);
+int plasticoRecicladoLocalidad(eCliente* clientList, eLocalidades* localitiesList,eOrden* ordersList, ePlasticos* plasticList, int clientsLen, int ordersLen, int* uniqueLocalityID);
+int imprimeClientePorLocalidad(eCliente clientList, eLocalidades* localitiesList, int clientsLen, int localitiesLen);
+int imprimirListaClientesLocalidades(eCliente* clientList, eLocalidades* localitiesList, int clientsLen, int localitiesLen);
 
 
-eCliente bringClients(eCliente* clientList,int lenClients, int id);
+eCliente obtenerClientes(eCliente* clientList,int lenClients, int id);
 int deliverOrders (eOrden* ordersList,int ordersLen, int id);
-eOrden bringOrders(eOrden* ordersList, int ordersLen, int id);
-sPlastics bringPlasticTypes (sPlastics* plasticList, int plasticLen, int id);
-int ppAcumulator (sPlastics* plasticList,int lenPlastic, int id); // 10
-int countClientsByOrder (eOrden* ordersList, sPlastics* plasticsList,int ordersLen, int id);
-int mostOrdersFinder (eOrden* ordersList, int ordersLen, int id, int status);
+eOrden traerOrdenes(eOrden* ordersList, int ordersLen, int id);
+ePlasticos traerPlasticos (ePlasticos* plasticList, int plasticLen, int id);
+int ppAcumulador (ePlasticos* plasticList,int lenPlastic, int id); // 10
+int cuentaClientesPorOrden (eOrden* ordersList, ePlasticos* plasticsList,int ordersLen, int id);
+int buscaMayoriaOrdenes (eOrden* ordersList, int ordersLen, int id, int status);
 

@@ -4,21 +4,21 @@
 
 #include "Nexo.h"
 
-int PLA_initArray (sPlastics* plasticsList, int plasticsLen)
+int iniciaArrPlastico (ePlasticos* listaPlasticos, int lenPlasticos)
 {
 	int state = -1;
 
-	if(plasticsList != NULL && plasticsLen > 0)
+	if(listaPlasticos != NULL && lenPlasticos > 0)
 	{
-		for(int i = 0; i < plasticsLen; i++)
+		for(int i = 0; i < lenPlasticos; i++)
 		{
-			plasticsList[i].isEmpty = EMPTY;
+			listaPlasticos[i].isEmpty = EMPTY;
 		}
 	}
 	return state;
 }
 
-int PLA_freeArraySpot (sPlastics* plasticsList, int plasticsLen)
+int PLA_freeArraySpot (ePlasticos* plasticsList, int plasticsLen)
 {
 	int position;
 
@@ -39,7 +39,7 @@ int PLA_freeArraySpot (sPlastics* plasticsList, int plasticsLen)
 	return position;
 }
 
-int PLA_processPlastics (sPlastics* plasticsList, int plasticsLen, int id, int weightOfOrder) //
+int PLA_processPlastics (ePlasticos* plasticsList, int plasticsLen, int id, int weightOfOrder) //
 {
 	int state;
 	int posToProcess;
@@ -50,7 +50,7 @@ int PLA_processPlastics (sPlastics* plasticsList, int plasticsLen, int id, int w
 	{
 		posToProcess = PLA_freeArraySpot(plasticsList, plasticsLen);
 
-		plasticsList[posToProcess].orderId = id;
+		plasticsList[posToProcess].idOrden = id;
 
 		if(weightOfOrder > 0)
 		{
@@ -85,8 +85,8 @@ int PLA_processPlastics (sPlastics* plasticsList, int plasticsLen, int id, int w
 			printf("\n\n\t\t\t\t\t\t\t\t\tBasura restante: %d Kl", weightOfOrder);
 		}
 
-		plasticsList[posToProcess].desechableThrash = weightOfOrder;
-		printf("\n\t\t\t\t\t\tEl plastico no reciclado será considerado basura y este es de: %d Kl", plasticsList[posToProcess].desechableThrash);
+		plasticsList[posToProcess].basuraDesechable = weightOfOrder;
+		printf("\n\t\t\t\t\t\tEl plastico no reciclado será considerado basura y este es de: %d Kl", plasticsList[posToProcess].basuraDesechable);
 
 		state = 0;
 		plasticsList[posToProcess].isEmpty = FULL;

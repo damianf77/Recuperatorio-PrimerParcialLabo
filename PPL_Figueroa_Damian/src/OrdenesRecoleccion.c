@@ -5,9 +5,9 @@
 #include "Nexo.h"
 
 
-int initOrders (eOrden* ordersList, int len)
+int iniciarOrden (eOrden* ordersList, int len)
 {
-	int state = -1;
+	int estado = -1;
 
 	if(ordersList != NULL && len > 0)
 	{
@@ -16,14 +16,14 @@ int initOrders (eOrden* ordersList, int len)
 			ordersList[i].isEmpty = EMPTY;
 		}
 	}
-	return state;
+	return estado;
 }
 
-int freeOrderSpot (eOrden* ordersList, int len)
+int espacioLibreOrden (eOrden* ordersList, int len)
 {
-	int position;
+	int posicion;
 
-	position = -1;
+	posicion = -1;
 
 	if(ordersList != NULL && len > 0)
 	{
@@ -31,176 +31,176 @@ int freeOrderSpot (eOrden* ordersList, int len)
 		{
 			if(ordersList[i].isEmpty == EMPTY)
 			{
-				position = i;
+				posicion = i;
 				break;
 			}
 		}
 	}
 
-	return position;
+	return posicion;
 }
 
-int newOrder (eCliente* clientList, eOrden* ordersList, eLocalidades* localitiesList, int len, int* uniqueOrderID) //
+int nuevaOrden (eCliente* clientList, eOrden* ordersList, eLocalidades* localitiesList, int len, int* uniqueOrderID) //
 {
-	eOrden newOrder;
-	int posToSync;
+	eOrden nuevaOrden;
+	int posicion;
 
 	if(ordersList != NULL && clientList != NULL && len > 0)
 	{
 		*uniqueOrderID = *uniqueOrderID+1;
 
-		posToSync = pedirID(clientList, localitiesList, len);
-		newOrder.idCliente = clientList[posToSync].idCliente; /// FK
-		newOrder.pesoOrden = obtieneEnteroValido("\t\t\t\t\t\t\tIngrese el peso del pedido de recoleccion que desea crear: ",
+		posicion = pedirID(clientList, localitiesList, len);
+		nuevaOrden.idCliente = clientList[posicion].idCliente; /// FK
+		nuevaOrden.pesoOrden = obtieneEnteroValido("\t\t\t\t\t\t\tIngrese el peso del pedido de recoleccion que desea crear: ",
 				"\t\t\t\t\t\tERROR - (Has ingresado un numero no contemplado en el menu reintente) - ERROR ", 100, 100000);
-		newOrder.idOrden = *uniqueOrderID;
-		newOrder.estado = PENDING;
+		nuevaOrden.idOrden = *uniqueOrderID;
+		nuevaOrden.estado = PENDING;
 
-		addOrder(ordersList,len,newOrder.idCliente,newOrder.pesoOrden,newOrder.idOrden,newOrder.estado); ///
+		agregarOrden(ordersList,len,nuevaOrden.idCliente,nuevaOrden.pesoOrden,nuevaOrden.idOrden,nuevaOrden.estado); ///
 	}
 
 	return 1;
 }
 
-int addOrder (eOrden* ordersList, int len, int clientId , int orderWeight, int orderId, int status) //
+int agregarOrden (eOrden* ordersList, int len, int clientId , int orderWeight, int orderId, int status) //
 {
-	int pos;
+	int posicion;
 
 	if(ordersList != NULL && len > 0)
 	{
-		pos = freeOrderSpot(ordersList, len);
+		posicion = espacioLibreOrden(ordersList, len);
 
-		ordersList[pos].idCliente = clientId;
-		ordersList[pos].pesoOrden = orderWeight;
-		ordersList[pos].idOrden = orderId;
-		ordersList[pos].estado = PENDING;
-		ordersList[pos].isEmpty = FULL;
+		ordersList[posicion].idCliente = clientId;
+		ordersList[posicion].pesoOrden = orderWeight;
+		ordersList[posicion].idOrden = orderId;
+		ordersList[posicion].estado = PENDING;
+		ordersList[posicion].isEmpty = FULL;
 	}
 	return 1;
 }
 
-int showOneOrder (eOrden ordersList)
+int mostrarOrden (eOrden listaOrdenes)
 {
-	int state;
+	int estado;
 
-	state = -1;
+	estado = -1;
 
 		printf(" %10d | %10d | %d | %d |\n",
-		ordersList.idOrden,
-		ordersList.pesoOrden,
-		ordersList.estado,
-		ordersList.isEmpty);
+		listaOrdenes.idOrden,
+		listaOrdenes.pesoOrden,
+		listaOrdenes.estado,
+		listaOrdenes.isEmpty);
 
-		state = 0;
+		estado = 0;
 
-	return state;
+	return estado;
 }
 
-int showListOfOrders (eOrden* ordersList, int len)
+int mostarListaOrdenes (eOrden* listaOrdenes, int len)
 {
-	int state;
+	int estado;
 
-	state = -1;
+	estado = -1;
 
-	if(ordersList != NULL && len > 0)
+	if(listaOrdenes != NULL && len > 0)
 	{
 		printf("\n|ID Orden | Peso| Status | IsEmpty |\n");
 		printf("|____________|_____________|______________|______|\n");
 
-		if(ordersList != NULL && len > 0)
+		if(listaOrdenes != NULL && len > 0)
 		{
 			for(int i = 0; i < len; i++)
 			{
-				if(ordersList[i].isEmpty == FULL)
+				if(listaOrdenes[i].isEmpty == FULL)
 				{
-					showOneOrder(ordersList[i]);
+					mostrarOrden(listaOrdenes[i]);
 				}
 			}
 		}
 	}
 
-	return state;
+	return estado;
 }
 
-int arrayChargeOrders (eOrden* ordersList, eCliente* clientList, int len, int* uniqueOrderID) ///
+int arrayChargeOrders (eOrden* listaOrdenes, eCliente* listaClientes, int len, int* ordenID) ///
 {
-	int weight;
-	int status;
+	int peso;
+	int estado;
 	int pos;
-	weight = 1333;
+	peso = 1333;
 
-	if(ordersList != NULL && clientList != NULL && len > 0)
+	if(listaOrdenes != NULL && listaClientes != NULL && len > 0)
 	{
 		for(int i = 0; i < 12; i ++)
 		{
-			*uniqueOrderID = *uniqueOrderID+1;
+			*ordenID = *ordenID+1;
 
-			pos = freeOrderSpot(ordersList, len);
-			ordersList[pos].idOrden = *uniqueOrderID;
-			ordersList[pos].pesoOrden = weight+=33;
-			ordersList[pos].idCliente = clientList[i].idCliente;
-			status = PENDING;
-			ordersList[pos].estado = status;
-			ordersList[pos].isEmpty = FULL;
+			pos = espacioLibreOrden(listaOrdenes, len);
+			listaOrdenes[pos].idOrden = *ordenID;
+			listaOrdenes[pos].pesoOrden = peso+=33;
+			listaOrdenes[pos].idCliente = listaClientes[i].idCliente;
+			estado = PENDING;
+			listaOrdenes[pos].estado = estado;
+			listaOrdenes[pos].isEmpty = FULL;
 		}
 	}
 
 	return 1;
 }
 
-int idOrderAskForProcess(eCliente* clientList, eOrden* ordersList, int clientsLen, int ordersLen) ///
+int idOrdenPedido(eCliente* listaClientes, eOrden* listaOrdenes, int lenClientes, int lenOrdenes) ///
 {
-	int enteredId;
-	int positionToUse;
-	eCliente oneClient;
+	int idIngresado;
+	int posicion;
+	eCliente unCliente;
 
-	if(ordersList != NULL && clientList != NULL && ordersLen > 0)
+	if(listaOrdenes != NULL && listaClientes != NULL && lenOrdenes > 0)
 	{
 		printf("\n\t\t\t\t\t\t\t|  ID Orden  |    Peso     |  Client ID   |   Estado     |\n");
 		printf("\t\t\t\t\t\t\t|____________|_____________|______________|______________|\n");
 
-		for(int i = 0; i < ordersLen; i++)
+		for(int i = 0; i < lenOrdenes; i++)
 		{
-			if(ordersList[i].isEmpty == FULL && ordersList[i].estado == PENDING)
+			if(listaOrdenes[i].isEmpty == FULL && listaOrdenes[i].estado == PENDING)
 			{
-				oneClient = bringClients(clientList, clientsLen, ordersList[i].idCliente);
+				unCliente = obtenerClientes(listaClientes, lenClientes, listaOrdenes[i].idCliente);
 
 				printf("\t\t\t\t\t\t\t| %10d | %10d  | %10d   | %10d   |\n",
-				ordersList[i].idOrden,
-				ordersList[i].pesoOrden,
-				oneClient.idCliente,
-				ordersList[i].estado);
+				listaOrdenes[i].idOrden,
+				listaOrdenes[i].pesoOrden,
+				unCliente.idCliente,
+				listaOrdenes[i].estado);
 			}
 		}
 
-		enteredId = obtieneEnteroValido("\n\n\t\t\t\t\tDespues de haber visto la lista de los Id's de los clientes disponibles, a cual desea procesar?",
+		idIngresado = obtieneEnteroValido("\n\n\t\t\t\t\tDespues de haber visto la lista de los Id's de los clientes disponibles, a cual desea procesar?",
 		"\n\n\t\t\t\t\tERROR - (Has ingresado un ID no existente intentelo nuevamente) - ERROR", 1, 100);
 
-		positionToUse = orderIdValidation (ordersList, ordersLen, enteredId);
+		posicion = validaOrden (listaOrdenes, lenOrdenes, idIngresado);
 	}
 
-	return positionToUse;
+	return posicion;
 }
 
-int idOrderAsk(eOrden* ordersList, int len)
+int pedirId(eOrden* listaOrdenes, int len)
 {
-	int enteredId;
-	int positionToUse;
+	int idIngresado;
+	int posicion;
 
-	if(ordersList != NULL && len > 0)
+	if(listaOrdenes != NULL && len > 0)
 	{
-		showListOfOrders(ordersList, len);
+		mostarListaOrdenes(listaOrdenes, len);
 
-		enteredId = obtieneEnteroValido("Despues de haber visto la lista de los Id's de los clientes disponibles, a cual desea crearle un pedido?",
+		idIngresado = obtieneEnteroValido("Despues de haber visto la lista de los Id's de los clientes disponibles, a cual desea crearle un pedido?",
 				"ERROR - (Has ingresado un ID no existente intentelo nuevamente) - ERROR", 1, 100);
 
-		positionToUse = orderIdValidation (ordersList, len, enteredId);
+		posicion = validaOrden (listaOrdenes, len, idIngresado);
 	}
 
-	return positionToUse;
+	return posicion;
 }
 
-int orderIdValidation (eOrden* ordersList, int len, int enteredId)
+int validaOrden (eOrden* ordersList, int len, int enteredId)
 {
 	int pos;
 
@@ -220,34 +220,34 @@ int orderIdValidation (eOrden* ordersList, int len, int enteredId)
 		if(pos == -1)
 		{
 			printf("Lamentamos informale que ese id no existe!");
-			idOrderAsk(ordersList, len);
+			pedirId(ordersList, len);
 		}
 	}
 
 	return pos;
 }
 
-int processingOrder (eCliente* clientList, eOrden* ordersList, sPlastics* plasticsList, int clientsLen, int ordersLen) //
+int procesaOrden (eCliente* listaClientes, eOrden* listaOrdenes, ePlasticos* listaPlasticos, int lenClientes, int lenOrdenes) //
 {
-	int state;
-	int posOrderToProcess;
-	int weightOfOrder;
-	int processedStatus;
+	int estado;
+	int posicion;
+	int pesoOrden;
+	int estadoProceso;
 
-	state = -1;
+	estado = -1;
 
-	if(clientList != NULL && ordersList != NULL && clientsLen > 0 && ordersLen > 0)
+	if(listaClientes != NULL && listaOrdenes != NULL && lenClientes > 0 && lenOrdenes > 0)
 	{
-		posOrderToProcess = idOrderAskForProcess(clientList, ordersList, 100, 1000);
+		posicion = idOrdenPedido(listaClientes, listaOrdenes, 100, 1000);
 
-		weightOfOrder = ordersList[posOrderToProcess].pesoOrden;
+		pesoOrden = listaOrdenes[posicion].pesoOrden;
 
-		processedStatus	= PLA_processPlastics(plasticsList, ordersLen, ordersList[posOrderToProcess].idOrden, weightOfOrder);
+		estadoProceso	= PLA_processPlastics(listaPlasticos, lenOrdenes, listaOrdenes[posicion].idOrden, pesoOrden);
 
-		if(processedStatus == 0)
+		if(estadoProceso == 0)
 		{
-			ordersList[posOrderToProcess].estado = COMPLETED;
-			state = 0;
+			listaOrdenes[posicion].estado = COMPLETED;
+			estado = 0;
 		}
 		else
 		{
@@ -256,7 +256,7 @@ int processingOrder (eCliente* clientList, eOrden* ordersList, sPlastics* plasti
 		}
 	}
 
-	return state;
+	return estado;
 }
 
 

@@ -134,7 +134,7 @@ int validaString(char mensaje[], char mensajeError[], char *input) ///
     return retorno;
 }
 
-int getValidLocality(char mensaje[], char mensajeError[], char *input) ///
+int obtenerLocalidadValida(char mensaje[], char mensajeError[], char *input) ///
 {
     int retorno = -1;
     char aux[256];
